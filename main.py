@@ -8,8 +8,9 @@ while True:
         elif opcion == 2:
             u.ver_pacientes()
         elif opcion == 3:
-            rut = input("Ingrese RUT del paciente para consulta: ").strip().upper()
-            u.agregar_consulta(rut)
+            u.agregar_consulta()
+        elif opcion == 4:
+            u.ver_historial()
         elif opcion == 5:
             print("¡Hasta luego!")
             break
