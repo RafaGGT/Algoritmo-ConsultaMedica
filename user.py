@@ -2,73 +2,81 @@ from datetime import datetime
 
 # Diccionario que contiene los ruts(clave) y datos(valor) del paciente 
 pacientes = {
-    "rut-test1": {"Nombre": "nom-test1", "Edad": "ed-test1", "Sexo": "sex-test1"},
-    "rut-test2": {"Nombre": "nom-test2", "Edad": "ed-test2", "Sexo": "sex-test2"}
+    "A": {"Nombre": "a", "Edad": "a", "Sexo": "a"},
+    "B": {"Nombre": "b", "Edad": "b", "Sexo": "b"}
 }
 # Lista de constulas 
 consultas = []  
 
-# Menu principal
+# Menu principal 
 def menu():
-    print("\n*** Menú de Consultas Médicas ***")
+    print("*** Menú Principal ***")
+    print("1) Pacientes")
+    print("2) Consultas")
+    print("3) Salir")
+    op = int(input("Elige una opción: "))
+    return op
+# Menu crud paciente
+def menu_paciente():
+    print("\n*** Menú Pacientes ***")
     print("1. Registrar paciente")
     print("2. Listar pacientes")
-    print("3. Agregar consulta")
-    print("4. Ver Historial")
-    print("5. Salir")
+    print("3. Editar paciente")
+    print("4. Eliminar paciente")
+    print("5. Volver atras")
+    op = int(input("Elige una opción: "))
+    return op
+# Menu crud consultas
+def menu_consultas():
+    print("\n*** Menú Pacientes ***")
+    print("1. Agregar consulta")
+    print("2. Ver Historial de un paciente")
+    print("3. Editar consulta")
+    print("4. Eliminar consulta")
+    print("5. Volver atras")
     op = int(input("Elige una opción: "))
     return op
 
-# Ingresar pacientes
+# ------------------------------- Funciones para el CRUD de pacientes -------------------------------
+
+# Ingresar pacientes al diccionario
 def registrar_paciente():  
     rut = input("Ingrese RUT del paciente sin punto y con guion: ").strip().upper()
+    # Verificamos que no exista ya el rut ingresado
     if rut in pacientes: 
         print("Paciente con ese RUT ya existe.")
         return
-    nombre = input("Nombre y Apellido: ").strip().title() 
+    nombre = input("Nombre y Apellido: ").strip().capitalize() 
     edad = input("Edad: ").strip()
     sexo = input("Sexo: ").strip().title() 
+    # Ingresamos al diccionario pacientes la clave(rut) y el valor(diccionario con los datos)
     pacientes[rut] = {'Nombre': nombre, 'Edad': edad, 'Sexo': sexo}
     print("Paciente agregado exitosamente.")
 
 # Listar pacientes
 def ver_pacientes():
+    # En caso de que no haya pacientes
     if not pacientes:
         print("No hay pacientes registrados.")
         return
     print("*"*30)
+    # Recorre el diccionario con la informacion de los pacientes
     for rut, info in pacientes.items():
         print(f"RUT: {rut} \nNombre: {info['Nombre']} \nEdad: {info['Edad']} \nSexo: {info['Sexo']}")
         print("*"*30)
 
-# Se agrega una consulta a la lista
-def agregar_consulta():
-    rut = input("Ingrese RUT del paciente para consulta: ").strip().upper()
-    if rut not in pacientes: 
-        print("El paciente con ese RUT no existe.")
-        return
-    try:
-        fecha_str = input("Fecha de la consulta (DD/MM/AAAA): ").strip()
-        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
-    except ValueError:
-        print("Fecha inválida. Usa el formato DD/MM/AAAA.")
-        return
-    motivo = input("Motivo de la consulta: ").strip()
-    aaa = consultas.append({'rut': rut, 'fecha': fecha, 'motivo': motivo})
-    print("Consulta agregada.")
-    
 # Modifica los datos del paciente mas no el rut
 def editar_paciente():
     rut = input("Ingrese RUT del paciente a editar: ").strip().upper()
     if rut not in pacientes:
         print("No se encontró un paciente con ese RUT.")
         return
-    
+    # Mostramos los datos actuales en base al rut
     print(f"\nDatos actuales del paciente {rut}:")
     print(f"Nombre: {pacientes[rut]['Nombre']}")
     print(f"Edad: {pacientes[rut]['Edad']}")
     print(f"Sexo: {pacientes[rut]['Sexo']}")
-    
+    # Le pedimos al usuario que modifique un dato
     try:
         op = int(input("¿Qué desea modificar?\n1) Nombre\n2) Edad\n3) Sexo\nOpción: "))
     except ValueError:
@@ -77,7 +85,6 @@ def editar_paciente():
     except:
         print("Error del sistema")
         return
-    
     if op == 1:
         nuevo_nombre = input("Nuevo nombre: ").strip().title()
         if nuevo_nombre:
@@ -95,36 +102,104 @@ def editar_paciente():
             print("Sexo actualizado.")
     else:
         print("Opción no válida.")
-
-    if nuevo_nombre:
-        pacientes[rut]['Nombre'] = nuevo_nombre
-    if nueva_edad:
-        pacientes[rut]['Edad'] = nueva_edad
-    if nuevo_sexo:
-        pacientes[rut]['Sexo'] = nuevo_sexo
-    
     print("Paciente actualizado exitosamente.")
+
+# Eliminar paciente
+def eliminar_paciente():
+    rut = input("Ingrese RUT del paciente a eliminar: ").strip().upper()
+    if rut not in pacientes:
+        print("No se encontró un paciente con ese RUT.")
+        return
+    # Mostramos los datos del paciente y confirmamos si desea eliminar al paciente
+    print(f"\nDatos del paciente {rut}:")
+    print(f"Nombre: {pacientes[rut]['Nombre']}")
+    print(f"Edad: {pacientes[rut]['Edad']}")
+    print(f"Sexo: {pacientes[rut]['Sexo']}")
+    
+    confirmar = input('¿Desea eliminarlo? (escribe "s" para confirmar): ').strip().lower()
+    if confirmar == 's':
+        for consulta in consultas:
+            if consulta[0] == rut:
+                consultas.remove(consulta)
+        del pacientes[rut] 
+        print("Paciente eliminado exitosamente.")
+    else:
+        print("Eliminación cancelada.")
+
+# ------------------------------- Funciones para el CRUD de consultas -------------------------------
+# Se agrega una consulta a la lista
+def agregar_consulta():
+    rut = input("Ingrese RUT del paciente para consulta: ").strip().upper()
+    if rut not in pacientes: 
+        print("El paciente con ese RUT no existe.")
+        return
+    
+    try:
+        fecha_str = input("Fecha de la consulta (DD/MM/AAAA): ").strip()
+        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+    except ValueError:
+        print("Fecha inválida. Usa el formato DD/MM/AAAA.")
+        return
+    motivo = input("Motivo de la consulta: ").strip()
+    consultas.append([rut, fecha, motivo])
+    print("Consulta agregada.")
+
 
 # Ver historial del paciente
 def ver_historial():
     rut = input("Ingrese RUT del paciente para ver su historial: ").strip().upper()
-    tiene_consultas = False
+    historial = False
     for consulta in consultas:
-        if consulta['rut'] == rut:
-            if not tiene_consultas:
-                print(f"\nHistorial de consultas para {pacientes[rut]['Nombre']} ({rut}):")
-                tiene_consultas = True
-            print(f"- Fecha: {consulta['fecha'].strftime('%d/%m/%Y')} | Motivo: {consulta['motivo']}")
-    if not tiene_consultas:
-        print("Este paciente no tiene consultas registradas.")
+        if consulta[0] == rut: # consulta[0] es la ubicacion del rut ingresado en consultas
+            if not historial:
+                print(f"Historial de consultas para {pacientes[rut]['Nombre']} ({rut}):")
+                historial = True
+            print(f"- Fecha: {consulta[1].strftime('%d/%m/%Y')} | Motivo: {consulta[2]}")
+    if not historial:
+        print("No hay consultas registradas para este paciente.")
 
 
-def eliminar_paciente():
-    pass
-
-
+# Eliminar consulta por fecha
 def eliminar_consulta():
-    pass
+    rut = input("Ingrese RUT del paciente: ").strip().upper()
+    if rut not in pacientes:
+        print("Paciente no encontrado.")
+        return
+
+    fecha_str = input("Ingrese la fecha de la consulta a eliminar (DD/MM/AAAA): ").strip()
+    try:
+        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+    except ValueError:
+        print("Formato de fecha inválido.")
+        return
+    # Buscar y eliminar la consulta en la que concuerde el rut y la fecha
+    for consulta in consultas:
+        if consulta[0] == rut and consulta[1] == fecha:
+            consultas.remove(consulta)
+            print("Consulta eliminada con éxito.")
+            return
+
+    print("No se encontró una consulta con ese RUT y fecha.")
+
+
 
 def editar_consulta():
-    pass
+    rut = input("Ingrese RUT del paciente: ").strip().upper()
+    if rut not in pacientes:
+        print("Paciente no encontrado.")
+        return
+    fecha_str = input("Ingrese la fecha de la consulta a editar (DD/MM/AAAA): ").strip()
+    try:
+        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+    except ValueError:
+        print("Formato de fecha inválido.")
+        return
+    for consulta in consultas:
+        if consulta[0] == rut and consulta[1] == fecha:
+            print(f"Motivo actual: {consulta[2]}")
+            nuevo_motivo = input("Nuevo motivo de la consulta: ").strip()
+            if nuevo_motivo:
+                consulta[2] = nuevo_motivo
+                print("Consulta actualizada.")
+            return
+    print("Consulta no encontrada.")
