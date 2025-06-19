@@ -2,11 +2,10 @@ from datetime import datetime
 
 # Diccionario que contiene los ruts(clave) y datos(valor) del paciente 
 pacientes = {
-    "A": {"Nombre": "a", "Edad": "a", "Sexo": "a"},
-    "B": {"Nombre": "b", "Edad": "b", "Sexo": "b"}
+    "20111857-3": {"Nombre": "Rafael Gallegos", "Edad": "25", "Sexo": "Masculino"},
 }
 # Lista de constulas 
-consultas = []  
+consultas = [['20111857-3', datetime.date(2025, 6, 19), 'tos']]  
 
 # Menu principal 
 def menu():
@@ -89,7 +88,7 @@ def editar_paciente():
         print("Error del sistema")
         return
     if op == 1:
-        nuevo_nombre = input("Nuevo nombre: ").strip().title()
+        nuevo_nombre = input("Nuevo nombre: ").strip().capitalize()
         if nuevo_nombre:
             pacientes[rut]['Nombre'] = nuevo_nombre
             print("Nombre actualizado.")
@@ -105,6 +104,7 @@ def editar_paciente():
             print("Sexo actualizado.")
     else:
         print("Opción no válida.")
+        return
     print("Paciente actualizado exitosamente.")
 
 # Eliminar paciente
@@ -147,6 +147,7 @@ def agregar_consulta():
     motivo = input("Motivo de la consulta: ").strip()
     # Ingresamos a los datos a la lista de consultas
     consultas.append([rut, fecha, motivo])
+    print(consultas)
     print("Consulta agregada.")
 
 
@@ -165,31 +166,7 @@ def ver_historial():
     if not historial:
         print("No hay consultas registradas para este paciente.")
 
-
-# Eliminar consulta por rut y fecha
-def eliminar_consulta():
-    rut = input("Ingrese RUT del paciente: ").strip().upper()
-    if rut not in pacientes:
-        print("Paciente no encontrado.")
-        return
-    fecha_consulta = input("Ingrese la fecha de la consulta a eliminar (DD/MM/AAAA): ").strip()
-    try:
-        # Se usa datetime.strptime para transformar un string a objeto tipo fecha
-        fecha = datetime.strptime(fecha_consulta, "%d/%m/%Y").date()
-    except ValueError:
-        print("Formato de fecha inválido.")
-        return
-    # Buscar y eliminar la consulta en la que concuerde el rut y la fecha
-    for consulta in consultas:
-        if consulta[0] == rut and consulta[1] == fecha:
-            consultas.remove(consulta)
-            print("Consulta eliminada con éxito.")
-            return
-
-    print("No se encontró una consulta con ese RUT y fecha.")
-
-
-
+# Edita el motivo de la consulta en base al rut y fecha
 def editar_consulta():
     rut = input("Ingrese RUT del paciente: ").strip().upper()
     if rut not in pacientes:
@@ -213,3 +190,25 @@ def editar_consulta():
                 print("Consulta actualizada.")
             return
     print("Consulta no encontrada.")
+
+# Eliminar consulta por rut y fecha
+def eliminar_consulta():
+    rut = input("Ingrese RUT del paciente: ").strip().upper()
+    if rut not in pacientes:
+        print("Paciente no encontrado.")
+        return
+    fecha_consulta = input("Ingrese la fecha de la consulta a eliminar (DD/MM/AAAA): ").strip()
+    try:
+        # Se usa datetime.strptime para transformar un string a objeto tipo fecha
+        fecha = datetime.strptime(fecha_consulta, "%d/%m/%Y").date()
+    except ValueError:
+        print("Formato de fecha inválido.")
+        return
+    # Buscar y eliminar la consulta en la que concuerde el rut y la fecha
+    for consulta in consultas:
+        if consulta[0] == rut and consulta[1] == fecha:
+            consultas.remove(consulta)
+            print("Consulta eliminada con éxito.")
+            return
+
+    print("No se encontró una consulta con ese RUT y fecha.")
