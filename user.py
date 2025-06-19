@@ -10,31 +10,34 @@ consultas = []
 
 # Menu principal 
 def menu():
-    print("*** Menú Principal ***")
+    print("--- Menú Principal ---")
     print("1) Pacientes")
     print("2) Consultas")
     print("3) Salir")
     op = int(input("Elige una opción: "))
+    print("-"*25)
     return op
 # Menu crud paciente
 def menu_paciente():
-    print("\n*** Menú Pacientes ***")
+    print("--- Menú Pacientes ---")
     print("1. Registrar paciente")
     print("2. Listar pacientes")
     print("3. Editar paciente")
     print("4. Eliminar paciente")
     print("5. Volver atras")
     op = int(input("Elige una opción: "))
+    print("-"*25)
     return op
 # Menu crud consultas
 def menu_consultas():
-    print("\n*** Menú Pacientes ***")
+    print("--- Menú Consultas ---")
     print("1. Agregar consulta")
     print("2. Ver Historial de un paciente")
     print("3. Editar consulta")
     print("4. Eliminar consulta")
     print("5. Volver atras")
     op = int(input("Elige una opción: "))
+    print("-"*25)
     return op
 
 # ------------------------------- Funciones para el CRUD de pacientes -------------------------------
