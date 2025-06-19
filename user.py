@@ -115,8 +115,8 @@ def eliminar_paciente():
     print(f"Nombre: {pacientes[rut]['Nombre']}")
     print(f"Edad: {pacientes[rut]['Edad']}")
     print(f"Sexo: {pacientes[rut]['Sexo']}")
-    
     confirmar = input('¿Desea eliminarlo? (escribe "s" para confirmar): ').strip().lower()
+    # Si se confirma primero eliminamos todas las consultas del pacientas y luego al paciente 
     if confirmar == 's':
         for consulta in consultas:
             if consulta[0] == rut:
@@ -133,14 +133,16 @@ def agregar_consulta():
     if rut not in pacientes: 
         print("El paciente con ese RUT no existe.")
         return
-    
+    # Se pide que se ingrese una fecha en formato dia/mes/año
     try:
-        fecha_str = input("Fecha de la consulta (DD/MM/AAAA): ").strip()
-        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+        fecha_consulta = input("Fecha de la consulta (DD/MM/AAAA): ").strip()
+        # Se usa datetime.strptime para transformar un string a objeto tipo fecha
+        fecha = datetime.strptime(fecha_consulta, "%d/%m/%Y").date()
     except ValueError:
         print("Fecha inválida. Usa el formato DD/MM/AAAA.")
         return
     motivo = input("Motivo de la consulta: ").strip()
+    # Ingresamos a los datos a la lista de consultas
     consultas.append([rut, fecha, motivo])
     print("Consulta agregada.")
 
@@ -148,10 +150,12 @@ def agregar_consulta():
 # Ver historial del paciente
 def ver_historial():
     rut = input("Ingrese RUT del paciente para ver su historial: ").strip().upper()
+    # Booleano para saber si el paciente tiene consultas registradas
     historial = False
     for consulta in consultas:
         if consulta[0] == rut: # consulta[0] es la ubicacion del rut ingresado en consultas
             if not historial:
+                # El encabezado se muestra solo una vez gracias al booleano de historial
                 print(f"Historial de consultas para {pacientes[rut]['Nombre']} ({rut}):")
                 historial = True
             print(f"- Fecha: {consulta[1].strftime('%d/%m/%Y')} | Motivo: {consulta[2]}")
@@ -159,16 +163,16 @@ def ver_historial():
         print("No hay consultas registradas para este paciente.")
 
 
-# Eliminar consulta por fecha
+# Eliminar consulta por rut y fecha
 def eliminar_consulta():
     rut = input("Ingrese RUT del paciente: ").strip().upper()
     if rut not in pacientes:
         print("Paciente no encontrado.")
         return
-
-    fecha_str = input("Ingrese la fecha de la consulta a eliminar (DD/MM/AAAA): ").strip()
+    fecha_consulta = input("Ingrese la fecha de la consulta a eliminar (DD/MM/AAAA): ").strip()
     try:
-        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+        # Se usa datetime.strptime para transformar un string a objeto tipo fecha
+        fecha = datetime.strptime(fecha_consulta, "%d/%m/%Y").date()
     except ValueError:
         print("Formato de fecha inválido.")
         return
@@ -188,16 +192,19 @@ def editar_consulta():
     if rut not in pacientes:
         print("Paciente no encontrado.")
         return
-    fecha_str = input("Ingrese la fecha de la consulta a editar (DD/MM/AAAA): ").strip()
+    fecha_consulta = input("Ingrese la fecha de la consulta a editar (DD/MM/AAAA): ").strip()
     try:
-        fecha = datetime.strptime(fecha_str, "%d/%m/%Y").date()
+        # Se usa datetime.strptime para transformar un string a objeto tipo fecha
+        fecha = datetime.strptime(fecha_consulta, "%d/%m/%Y").date()
     except ValueError:
         print("Formato de fecha inválido.")
         return
+    # Recorremos la lista y buscamos cual coincide tanto en fecha como por rut
     for consulta in consultas:
         if consulta[0] == rut and consulta[1] == fecha:
             print(f"Motivo actual: {consulta[2]}")
             nuevo_motivo = input("Nuevo motivo de la consulta: ").strip()
+            # Verifica que se haya escrito algo en la nueva consulta
             if nuevo_motivo:
                 consulta[2] = nuevo_motivo
                 print("Consulta actualizada.")
