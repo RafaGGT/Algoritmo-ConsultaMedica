@@ -5,7 +5,7 @@ pacientes = {
     "20111857-3": {"Nombre": "Rafael Gallegos", "Edad": "25", "Sexo": "Masculino"},
 }
 # Lista de constulas 
-consultas = [['20111857-3', datetime.date(2025, 6, 19), 'tos']]  
+consultas = []  
 
 # Menu principal 
 def menu():
@@ -147,7 +147,6 @@ def agregar_consulta():
     motivo = input("Motivo de la consulta: ").strip()
     # Ingresamos a los datos a la lista de consultas
     consultas.append([rut, fecha, motivo])
-    print(consultas)
     print("Consulta agregada.")
 
 
