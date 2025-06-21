@@ -79,16 +79,11 @@ def editar_paciente():
     print(f"Edad: {pacientes[rut]['Edad']}")
     print(f"Sexo: {pacientes[rut]['Sexo']}")
     # Le pedimos al usuario que modifique un dato
-    try:
-        op = int(input("¿Qué desea modificar?\n1) Nombre\n2) Edad\n3) Sexo\nOpción: "))
-    except ValueError:
-        print("Opción inválida.")
-        return
-    except:
-        print("Error del sistema")
-        return
+    
+    op = int(input("¿Qué desea modificar?\n1) Nombre\n2) Edad\n3) Sexo\nOpción: "))
+
     if op == 1:
-        nuevo_nombre = input("Nuevo nombre: ").strip().capitalize()
+        nuevo_nombre = input("Nuevo nombre: ").strip().title()
         if nuevo_nombre:
             pacientes[rut]['Nombre'] = nuevo_nombre
             print("Nombre actualizado.")
