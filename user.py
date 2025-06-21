@@ -74,7 +74,7 @@ def editar_paciente():
         print("No se encontró un paciente con ese RUT.")
         return
     # Mostramos los datos actuales en base al rut
-    print(f"\nDatos actuales del paciente {rut}:")
+    print(f"Datos actuales del paciente {rut}:")
     print(f"Nombre: {pacientes[rut]['Nombre']}")
     print(f"Edad: {pacientes[rut]['Edad']}")
     print(f"Sexo: {pacientes[rut]['Sexo']}")
@@ -204,5 +204,4 @@ def eliminar_consulta():
             consultas.remove(consulta)
             print("Consulta eliminada con éxito.")
             return
-
     print("No se encontró una consulta con ese RUT y fecha.")
