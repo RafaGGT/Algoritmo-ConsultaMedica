@@ -48,7 +48,7 @@ def registrar_paciente():
     if rut in pacientes: 
         print("Paciente con ese RUT ya existe.")
         return
-    nombre = input("Nombre y Apellido: ").strip().capitalize() 
+    nombre = input("Nombre y Apellido: ").strip().title()
     edad = input("Edad: ").strip()
     sexo = input("Sexo: ").strip().title() 
     # Ingresamos al diccionario pacientes la clave(rut) y el valor(diccionario con los datos)
@@ -61,11 +61,11 @@ def ver_pacientes():
     if not pacientes:
         print("No hay pacientes registrados.")
         return
-    print("*"*30)
+    print("--- Lista de pacientes ---")
     # Recorre el diccionario con la informacion de los pacientes
     for rut, info in pacientes.items():
         print(f"RUT: {rut} \nNombre: {info['Nombre']} \nEdad: {info['Edad']} \nSexo: {info['Sexo']}")
-        print("*"*30)
+        print("-"*30)
 
 # Modifica los datos del paciente mas no el rut
 def editar_paciente():
