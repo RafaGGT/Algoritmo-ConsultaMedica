@@ -92,16 +92,25 @@ def editar_paciente():
         if nuevo_nombre:
             pacientes[rut]['Nombre'] = nuevo_nombre
             print("Nombre actualizado.")
+        else: 
+            print("No hay nuevos cambios.")
+            return
     elif op == 2:
         nueva_edad = input("Nueva edad: ").strip()
         if nueva_edad:
             pacientes[rut]['Edad'] = nueva_edad
             print("Edad actualizada.")
+        else: 
+            print("No hay nuevos cambios.")
+            return
     elif op == 3:
         nuevo_sexo = input("Nuevo sexo: ").strip().title()
         if nuevo_sexo:
             pacientes[rut]['Sexo'] = nuevo_sexo
             print("Sexo actualizado.")
+        else: 
+            print("No hay nuevos cambios.")
+            return
     else:
         print("Opción no válida.")
         return
