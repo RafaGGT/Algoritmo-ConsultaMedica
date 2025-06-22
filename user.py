@@ -44,12 +44,16 @@ def menu_consultas():
 # Ingresar pacientes al diccionario
 def registrar_paciente():  
     rut = input("Ingrese RUT del paciente sin punto y con guion: ").strip().upper()
+     # Validación: largo debe ser 10 y debe contener un guion en la posición 
+    if len(rut) != 10 or rut[8] != '-':
+        print("Formato de RUT incorrecto. Debe tener 10 caracteres y un guion en la posición correcta (ej: 12345678-9).")
+        return
     # Verificamos que no exista ya el rut ingresado
     if rut in pacientes: 
         print("Paciente con ese RUT ya existe.")
         return
     nombre = input("Nombre y Apellido: ").strip().title()
-    edad = input("Edad: ").strip()
+    edad = int(input("Edad: ").strip())
     sexo = input("Sexo: ").strip().title() 
     # Ingresamos al diccionario pacientes la clave(rut) y el valor(diccionario con los datos)
     pacientes[rut] = {'Nombre': nombre, 'Edad': edad, 'Sexo': sexo}
@@ -96,7 +100,7 @@ def editar_paciente():
             print("No hay nuevos cambios.")
             return
     elif op == 2:
-        nueva_edad = input("Nueva edad: ").strip()
+        nueva_edad = int(input("Nueva edad: ")).strip()
         if nueva_edad:
             pacientes[rut]['Edad'] = nueva_edad
             print("Edad actualizada.")
