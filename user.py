@@ -100,7 +100,7 @@ def editar_paciente():
             print("No hay nuevos cambios.")
             return
     elif op == 2:
-        nueva_edad = int(input("Nueva edad: ")).strip()
+        nueva_edad = int(input("Nueva edad: ").strip())
         if nueva_edad:
             pacientes[rut]['Edad'] = nueva_edad
             print("Edad actualizada.")
