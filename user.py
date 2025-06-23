@@ -44,7 +44,7 @@ def menu_consultas():
 # Ingresar pacientes al diccionario
 def registrar_paciente():  
     rut = input("Ingrese RUT del paciente sin punto y con guion: ").strip().upper()
-     # Validación: largo debe ser 10 y debe contener un guion en la posición 
+     # Validación del largo (10) del rut y contenido (-) en la penultima posicion  
     if len(rut) != 10 or rut[8] != '-':
         print("Formato de RUT incorrecto. Debe tener 10 caracteres y un guion en la posición correcta (ej: 12345678-9).")
         return
@@ -165,7 +165,10 @@ def agregar_consulta():
 
 # Ver historial del paciente
 def ver_historial():
-    rut = input("Ingrese RUT del paciente para ver su historial: ").strip().upper()
+    rut = input("Ingrese RUT del paciente para consulta: ").strip().upper()
+    if rut not in pacientes: 
+        print("El paciente con ese RUT no existe.")
+        return
     # Booleano para saber si el paciente tiene consultas registradas
     historial = False
     for consulta in consultas:
